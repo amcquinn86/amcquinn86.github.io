@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Andrew McQuinn — Dual Sport & Adventure Rider</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:       #0d0d0d;
+      --surface:  #161616;
+      --card:     #1e1e1e;
+      --border:   #2a2a2a;
+      --accent:   #e8522a;
+      --accent2:  #f0a500;
+      --text:     #f0ede8;
+      --muted:    #888;
+      --font-hd:  'Bebas Neue', sans-serif;
+      --font-bd:  'Inter', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-bd);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; object-fit: cover; }
+
+    /* ─── Scrollbar ──────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+    /* ─── Nav ────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 64px;
+      background: rgba(13,13,13,.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: background .3s;
+    }
+    .nav-logo {
+      font-family: var(--font-hd);
+      font-size: 1.5rem;
+      letter-spacing: .08em;
+      color: var(--text);
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links {
+      display: flex; gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ─── Hero ───────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(13,13,13,.3) 0%, rgba(13,13,13,.75) 60%, var(--bg) 100%),
+        url('hero-bg.jpg') center/cover no-repeat;
+    }
+    .hero-content {
+      position: relative;
+      max-width: 800px;
+      padding: 0 1.5rem;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .hero-title {
+      font-family: var(--font-hd);
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      line-height: 1;
+      letter-spacing: .04em;
+      margin-bottom: 1.25rem;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--accent);
+    }
+    .hero-sub {
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: rgba(240,237,232,.75);
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: .75rem 2rem;
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: all .2s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: #c9431e;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(232,82,42,.35);
+    }
+    .btn-ghost {
+      border: 1px solid var(--border);
+      color: var(--text);
+      margin-left: 1rem;
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      color: var(--muted);
+      font-size: .7rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .hero-scroll svg { width: 16px; height: 16px; stroke: var(--accent); }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ─── Section Shared ─────────────────────────────────────── */
+    section { padding: 6rem 0; }
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 2rem; }
+    .section-label {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .6rem;
+    }
+    .section-title {
+      font-family: var(--font-hd);
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      letter-spacing: .04em;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: .95rem;
+      max-width: 520px;
+      margin-bottom: 3rem;
+    }
+    .section-header-row {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .section-header-row .section-sub { margin-bottom: 0; }
+    .view-all {
+      font-size: .75rem; font-weight: 700;
+      letter-spacing: .15em; text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .view-all svg { width: 14px; height: 14px; }
+    .view-all:hover { opacity: .75; }
+
+    /* ─── Divider ─────────────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, var(--accent), transparent);
+      margin-bottom: 0;
+    }
+
+    /* ─── Blog ───────────────────────────────────────────────── */
+    #blog { background: var(--surface); }
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .blog-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+    }
+    .blog-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.5);
+      border-color: var(--accent);
+    }
+    .blog-card-img {
+      height: 200px;
+      overflow: hidden;
+    }
+    .blog-card-img img { height: 100%; transition: transform .5s; }
+    .blog-card:hover .blog-card-img img { transform: scale(1.06); }
+    .blog-card-body { padding: 1.4rem; }
+    .blog-tag {
+      display: inline-block;
+      font-size: .65rem; font-weight: 700;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: .6rem;
+    }
+    .blog-card-title {
+      font-family: var(--font-hd);
+      font-size: 1.4rem;
+      letter-spacing: .03em;
+      line-height: 1.2;
+      margin-bottom: .6rem;
+    }
+    .blog-card-excerpt {
+      font-size: .875rem;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      line-height: 1.6;
+    }
+    .blog-meta {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: .75rem; color: var(--muted);
+    }
+    .blog-meta .read-more {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: .75rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .blog-meta .read-more:hover { opacity: .75; }
+
+    /* ─── Adventures ─────────────────────────────────────────── */
+    #adventures { background: var(--bg); }
+    .adventures-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto;
+      gap: 1.2rem;
+    }
+    .adv-card {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .adv-card:nth-child(1) { grid-column: span 7; }
+    .adv-card:nth-child(2) { grid-column: span 5; }
+    .adv-card:nth-child(3) { grid-column: span 4; }
+    .adv-card:nth-child(4) { grid-column: span 4; }
+    .adv-card:nth-child(5) { grid-column: span 4; }
+    .adv-img {
+      width: 100%; height: 300px;
+      object-fit: cover;
+      transition: transform .5s, filter .5s;
+      filter: brightness(.7);
+    }
+    .adv-card:nth-child(1) .adv-img { height: 420px; }
+    .adv-card:nth-child(2) .adv-img { height: 420px; }
+    .adv-card:hover .adv-img { transform: scale(1.05); filter: brightness(.5); }
+    .adv-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(13,13,13,.9) 0%, transparent 55%);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 1.5rem;
+    }
+    .adv-region {
+      font-size: .65rem; font-weight: 700;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .4rem;
+    }
+    .adv-title {
+      font-family: var(--font-hd);
+      font-size: 1.6rem;
+      letter-spacing: .04em;
+      line-height: 1.1;
+    }
+    .adv-card:nth-child(1) .adv-title,
+    .adv-card:nth-child(2) .adv-title { font-size: 2rem; }
+    .adv-stats {
+      display: flex; gap: 1.2rem;
+      margin-top: .6rem;
+    }
+    .adv-stat {
+      display: flex; align-items: center; gap: .3rem;
+      font-size: .75rem; color: rgba(240,237,232,.65);
+    }
+    .adv-stat svg { width: 13px; height: 13px; stroke: var(--accent2); fill: none; }
+    .adv-cta {
+      position: absolute; top: 1rem; right: 1rem;
+      background: var(--accent);
+      color: #fff;
+      font-size: .65rem; font-weight: 700;
+      letter-spacing: .15em; text-transform: uppercase;
+      padding: .35rem .75rem;
+      border-radius: 2px;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity .25s, transform .25s;
+    }
+    .adv-card:hover .adv-cta { opacity: 1; transform: translateY(0); }
+
+    /* ─── Videos ─────────────────────────────────────────────── */
+    #videos { background: var(--surface); }
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .video-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+    }
+    .video-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.5);
+      border-color: #ff0000;
+    }
+    .video-thumb {
+      position: relative;
+      height: 180px;
+      overflow: hidden;
+      background: #111;
+    }
+    .video-thumb img { height: 100%; transition: transform .5s; }
+    .video-card:hover .video-thumb img { transform: scale(1.06); }
+    .play-btn {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .play-btn svg {
+      width: 52px; height: 52px;
+      filter: drop-shadow(0 2px 12px rgba(0,0,0,.8));
+      transition: transform .2s;
+    }
+    .video-card:hover .play-btn svg { transform: scale(1.1); }
+    .video-body { padding: 1.2rem; }
+    .video-duration {
+      display: inline-block;
+      background: rgba(255,0,0,.15);
+      color: #ff4444;
+      font-size: .65rem; font-weight: 700;
+      letter-spacing: .15em; text-transform: uppercase;
+      padding: .2rem .55rem;
+      border-radius: 2px;
+      margin-bottom: .6rem;
+    }
+    .video-title {
+      font-family: var(--font-hd);
+      font-size: 1.3rem;
+      letter-spacing: .03em;
+      line-height: 1.2;
+      margin-bottom: .5rem;
+    }
+    .video-meta { font-size: .75rem; color: var(--muted); }
+    .yt-subscribe {
+      display: flex; align-items: center; gap: .75rem;
+      margin-top: 2.5rem;
+      padding: 1.5rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    .yt-subscribe svg { width: 40px; height: 40px; flex-shrink: 0; }
+    .yt-subscribe-text h4 { font-family: var(--font-hd); font-size: 1.2rem; letter-spacing: .04em; }
+    .yt-subscribe-text p { font-size: .85rem; color: var(--muted); }
+    .btn-yt {
+      margin-left: auto;
+      background: #ff0000;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .btn-yt:hover { background: #cc0000; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,0,0,.3); }
+
+    /* ─── Footer ─────────────────────────────────────────────── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 3rem 0;
+      text-align: center;
+    }
+    .footer-logo {
+      font-family: var(--font-hd);
+      font-size: 2rem;
+      letter-spacing: .06em;
+      margin-bottom: .6rem;
+    }
+    .footer-logo span { color: var(--accent); }
+    .footer-tagline { font-size: .85rem; color: var(--muted); margin-bottom: 1.8rem; }
+    .footer-links {
+      display: flex; justify-content: center; gap: 1.5rem;
+      flex-wrap: wrap;
+      list-style: none;
+      margin-bottom: 1.8rem;
+    }
+    .footer-links a {
+      font-size: .75rem; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted); transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { font-size: .75rem; color: #444; }
+
+    /* ─── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .adventures-grid { display: flex; flex-direction: column; }
+      .adv-img { height: 240px !important; }
+      .adv-card:nth-child(1) .adv-title,
+      .adv-card:nth-child(2) .adv-title { font-size: 1.6rem; }
+    }
+    @media (max-width: 640px) {
+      nav { padding: 0 1.2rem; }
+      .nav-links { display: none; }
+      .hero-title { font-size: 3rem; }
+      .btn-ghost { display: none; }
+      .yt-subscribe { flex-direction: column; text-align: center; }
+      .btn-yt { margin: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAV ──────────────────────────────────────────────── -->
+  <nav>
+    <a class="nav-logo" href="#hero">Andrew<span>McQuinn</span></a>
+    <ul class="nav-links">
+      <li><a href="#blog">Blog</a></li>
+      <li><a href="#adventures">Adventures</a></li>
+      <li><a href="#videos">Videos</a></li>
+    </ul>
+  </nav>
+
+  <!-- ─── HERO ─────────────────────────────────────────────── -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <span class="hero-eyebrow">Dual Sport · Adventure · Off-Road</span>
+      <h1 class="hero-title">Ride Far.<br><em>Adventure Often.</em></h1>
+      <p class="hero-sub">Chasing dirt roads, mountain passes, and forgotten trails on two wheels — where the pavement ends is where it gets good.</p>
+      <a href="#adventures" class="btn btn-primary">See the Adventures</a>
+      <a href="#blog" class="btn btn-ghost">Read the Blog</a>
+    </div>
+    <div class="hero-scroll">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+      Scroll
+    </div>
+  </section>
+
+  <!-- ─── BLOG ─────────────────────────────────────────────── -->
+  <section id="blog">
+    <div class="container">
+      <div class="section-header-row">
+        <div>
+          <p class="section-label">From the Journal</p>
+          <h2 class="section-title">Latest Posts</h2>
+          <p class="section-sub">Dual sport diaries, ADV gear takes, and tales from the dirt.</p>
+        </div>
+        <a href="#" class="view-all">
+          All Posts
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </a>
+      </div>
+      <div class="blog-grid">
+
+        <article class="blog-card">
+          <div class="blog-card-img">
+            <img src="blog-dual-sport.jpg" alt="Dual sport on dirt trail" loading="lazy" />
+          </div>
+          <div class="blog-card-body">
+            <span class="blog-tag">Dual Sport</span>
+            <h3 class="blog-card-title">Why Dual Sport Changed Everything</h3>
+            <p class="blog-card-excerpt">The moment I turned off the pavement for the first time, I understood — the real adventures are never on the map.</p>
+            <div class="blog-meta">
+              <span>May 12, 2026 · 8 min read</span>
+              <a href="#" class="read-more">Read →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="blog-card">
+          <div class="blog-card-img">
+            <img src="blog-adv-gear.jpg" alt="ADV Gear campsite" loading="lazy" />
+          </div>
+          <div class="blog-card-body">
+            <span class="blog-tag">ADV Gear</span>
+            <h3 class="blog-card-title">The Kit I Pack for Every Off-Road Trip</h3>
+            <p class="blog-card-excerpt">From tire repair to navigation — here's exactly what's on my bike when I head into the backcountry, and why.</p>
+            <div class="blog-meta">
+              <span>Apr 30, 2026 · 6 min read</span>
+              <a href="#" class="read-more">Read →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="blog-card">
+          <div class="blog-card-img">
+            <img src="blog-ibex.jpg" alt="CF Moto Ibex 450 campsite" loading="lazy" />
+          </div>
+          <div class="blog-card-body">
+            <span class="blog-tag">Trail Riding</span>
+            <h3 class="blog-card-title">Getting Lost Was the Whole Point</h3>
+            <p class="blog-card-excerpt">No GPS, no itinerary — just a tank of fuel, a dirt road heading uphill, and the kind of freedom you can't plan for.</p>
+            <div class="blog-meta">
+              <span>Apr 14, 2026 · 5 min read</span>
+              <a href="#" class="read-more">Read →</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── ADVENTURES ─────────────────────────────────────── -->
+  <section id="adventures">
+    <div class="container">
+      <div class="section-header-row">
+        <div>
+          <p class="section-label">On Two Wheels</p>
+          <h2 class="section-title">Motorcycle Adventures</h2>
+          <p class="section-sub">Dirt roads, high passes, and remote trails — where pavement is optional.</p>
+        </div>
+        <a href="#" class="view-all">
+          All Rides
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </a>
+      </div>
+
+      <div class="adventures-grid">
+
+        <div class="adv-card">
+          <img class="adv-img" src="adv-ozark-bdr.jpg" alt="Ozark BDR" loading="lazy" />
+          <div class="adv-overlay">
+            <span class="adv-region">Arkansas</span>
+            <h3 class="adv-title">Ozark BDR</h3>
+            <div class="adv-stats">
+              <span class="adv-stat">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                7 Days
+              </span>
+              <span class="adv-stat">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                680 mi
+              </span>
+            </div>
+          </div>
+          <span class="adv-cta">View Trip</span>
+        </div>
+
+        <div class="adv-card">
+          <img class="adv-img" src="adv-vietnam.jpg" alt="Bixby Country Store" loading="lazy" />
+          <div class="adv-overlay">
+            <span class="adv-region">Bixby, MO</span>
+            <h3 class="adv-title">Bixby Country Store</h3>
+            <div class="adv-stats">
+              <span class="adv-stat">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                5 Days
+              </span>
+              <span class="adv-stat">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                920 mi
+              </span>
+            </div>
+          </div>
+          <span class="adv-cta">View Trip</span>
+        </div>
+
+        <div class="adv-card">
+          <img class="adv-img" src="adv-bixby.jpg" alt="North Vietnam" loading="lazy" />
+          <div class="adv-overlay">
+            <span class="adv-region">Vietnam</span>
+            <h3 class="adv-title">North Vietnam Loop</h3>
+            <div class="adv-stats">
+              <span class="adv-stat">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                4 Days
+              </span>
+              <span class="adv-stat">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                410 mi
+              </span>
+            </div>
+          </div>
+          <span class="adv-cta">View Trip</span>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── VIDEOS ─────────────────────────────────────────── -->
+  <section id="videos">
+    <div class="container">
+      <div class="section-header-row">
+        <div>
+          <p class="section-label">On YouTube</p>
+          <h2 class="section-title">Latest Videos</h2>
+          <p class="section-sub">Raw, unfiltered dual sport and ADV riding — dirt, grit, and all.</p>
+        </div>
+        <a href="https://www.youtube.com/@motocamp125" target="_blank" class="view-all">
+          YouTube Channel
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </a>
+      </div>
+
+      <div class="videos-grid">
+
+        <a class="video-card" href="https://www.youtube.com/watch?v=ToaQ0_av_2A" target="_blank" style="text-decoration:none;color:inherit;">
+          <div class="video-thumb">
+            <img src="https://img.youtube.com/vi/ToaQ0_av_2A/hqdefault.jpg" alt="February Adventure Ride in the Ozarks on the Ibex 450" loading="lazy" />
+            <div class="play-btn">
+              <svg viewBox="0 0 68 68" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="34" cy="34" r="34" fill="#ff0000" opacity=".9"/>
+                <polygon points="28,22 28,46 50,34" fill="white"/>
+              </svg>
+            </div>
+          </div>
+          <div class="video-body">
+            <h3 class="video-title">February Adventure Ride in the Ozarks on the Ibex 450</h3>
+            <p class="video-meta">@motocamp125</p>
+          </div>
+        </a>
+
+        <a class="video-card" href="https://www.youtube.com/watch?v=DEgox5PVhIo" target="_blank" style="text-decoration:none;color:inherit;">
+          <div class="video-thumb">
+            <img src="https://img.youtube.com/vi/DEgox5PVhIo/hqdefault.jpg" alt="2026 Cabin Fever Ride" loading="lazy" />
+            <div class="play-btn">
+              <svg viewBox="0 0 68 68" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="34" cy="34" r="34" fill="#ff0000" opacity=".9"/>
+                <polygon points="28,22 28,46 50,34" fill="white"/>
+              </svg>
+            </div>
+          </div>
+          <div class="video-body">
+            <h3 class="video-title">2026 Cabin Fever Ride</h3>
+            <p class="video-meta">@motocamp125</p>
+          </div>
+        </a>
+
+        <a class="video-card" href="https://www.youtube.com/watch?v=No69OhzopJg" target="_blank" style="text-decoration:none;color:inherit;">
+          <div class="video-thumb">
+            <img src="https://img.youtube.com/vi/No69OhzopJg/hqdefault.jpg" alt="Ibex 450 Fall Ride in the Missouri Ozarks" loading="lazy" />
+            <div class="play-btn">
+              <svg viewBox="0 0 68 68" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="34" cy="34" r="34" fill="#ff0000" opacity=".9"/>
+                <polygon points="28,22 28,46 50,34" fill="white"/>
+              </svg>
+            </div>
+          </div>
+          <div class="video-body">
+            <h3 class="video-title">Ibex 450 Fall Ride in the Missouri Ozarks</h3>
+            <p class="video-meta">@motocamp125</p>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- Subscribe Banner -->
+      <div class="yt-subscribe">
+        <svg viewBox="0 0 90 20" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="16" font-family="Arial" font-size="16" font-weight="bold" fill="#ff0000">▶</text>
+          <text x="22" y="16" font-family="Arial" font-size="14" font-weight="bold" fill="#f0ede8">YouTube</text>
+        </svg>
+        <div class="yt-subscribe-text">
+          <h4>Subscribe on YouTube</h4>
+          <p>New adventure videos every week — don't miss a ride.</p>
+        </div>
+        <a href="https://www.youtube.com/@motocamp125" target="_blank" class="btn btn-yt btn-primary">Subscribe</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─────────────────────────────────────────── -->
+  <footer>
+    <div class="container">
+      <div class="footer-logo">Andrew<span>McQuinn</span></div>
+      <p class="footer-tagline">Dual Sport · Adventure · Off-Road — AndrewMcQuinn.com</p>
+      <ul class="footer-links">
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#adventures">Adventures</a></li>
+        <li><a href="#videos">Videos</a></li>
+        <li><a href="https://www.youtube.com/@motocamp125" target="_blank">YouTube</a></li>
+      </ul>
+      <p class="footer-copy">© 2026 Andrew McQuinn. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
